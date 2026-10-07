@@ -1,0 +1,6 @@
+ollama
+pymongo
+pydantic
+streamlit
+matplotlib
+reportlab
