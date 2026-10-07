@@ -11,7 +11,7 @@ import ollama
 MODELO = "llama3.2"
 
 PROMPT_SISTEMA = """
-Eres LogiBot, un Asistente Técnico y Manual Operativo de Patio en Cedis (Centros de Distribución).
+Eres LogiBot, un Asistente Técnico y Manual Operativo de Patio in Cedis (Centros de Distribución).
 
 INSTRUCCIONES CLAVE:
 1. Actúa estrictamente como un manual de procedimientos operativos y técnicos de seguridad logística e industrial.
@@ -22,6 +22,31 @@ INSTRUCCIONES CLAVE:
 
 st.set_page_config(page_title="Asistente LogiSmart - LLM", page_icon="🚛", layout="wide")
 
+# ============================================================
+# ESTILOS CSS PERSONALIZADOS (MODO OSCURO)
+# ============================================================
+st.markdown("""
+<style>
+    /* Fondo general oscuro */
+    .stApp {
+        background-color: #0F172A !important;
+        color: #F8FAFC !important;
+    }
+    
+    /* Barra lateral en tono oscuro elegante */
+    [data-testid="stSidebar"] {
+        background-color: #1E293B !important;
+        color: #F8FAFC !important;
+        border-right: 1px solid #334155;
+    }
+
+    /* Asegurar visibilidad de títulos y textos en blanco/claro */
+    h1, h2, h3, h4, h5, h6, p, span, label {
+        color: #F8FAFC !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # Inicializar historial de conversación
 if "mensajes" not in st.session_state:
     st.session_state.mensajes = [{"role": "system", "content": PROMPT_SISTEMA}]
@@ -31,10 +56,9 @@ if "mensajes" not in st.session_state:
 # ------------------------------------------------------------
 with st.sidebar:
     st.header(" Opciones del Sistema")
-    st.info(f"Modelo: **{MODELO}** (Ollama Local)")
 
     # Requerimiento: Generar Resumen
-    if st.button(" Generar Resumen del Historial", type="primary", use_container_width=True):
+    if st.button("Generar Resumen del Historial", type="primary", use_container_width=True):
         mensajes_usuario = [m for m in st.session_state.mensajes if m["role"] != "system"]
         
         if not mensajes_usuario:
@@ -67,7 +91,7 @@ st.caption("Especialidad: Logística y Control de Acceso Industrial")
 for msg in st.session_state.mensajes:
     if msg["role"] == "system":
         continue
-    avatar = "👤" if msg["role"] == "user" else "🤖"
+    avatar = "" if msg["role"] == "user" else ""
     with st.chat_message(msg["role"], avatar=avatar):
         st.markdown(msg["content"])
 
@@ -78,7 +102,7 @@ if pregunta := st.chat_input("Escribe tu consulta logística..."):
     st.session_state.mensajes.append({"role": "user", "content": pregunta})
 
     # Generar y guardar respuesta del asistente
-    with st.chat_message("assistant", avatar="🤖"):
+    with st.chat_message("assistant", avatar=""):
         with st.spinner("Consultando protocolo en LogiBot..."):
             try:
                 res = ollama.chat(model=MODELO, messages=st.session_state.mensajes)
