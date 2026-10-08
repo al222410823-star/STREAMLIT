@@ -20,7 +20,7 @@ INSTRUCCIONES CLAVE:
 4. Mantén un tono profesional, enfocado 100% en la seguridad industrial y el control de accesos.
 """
 
-st.set_page_config(page_title="Asistente LogiSmart - LLM", page_icon="🚛", layout="wide")
+st.set_page_config(page_title="Asistente LogiSmart - LLM", page_icon="", layout="wide")
 
 # ============================================================
 # ESTILOS CSS PERSONALIZADOS (MODO OSCURO)
